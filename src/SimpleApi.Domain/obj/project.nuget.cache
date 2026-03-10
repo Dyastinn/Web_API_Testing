@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wlx9vpr7gHo=",
+  "dgSpecHash": "mj92Qv8JU7s=",
   "success": true,
-  "projectFilePath": "D:\\Web_APi_testing\\src\\SimpleApi.Domain\\SimpleApi.Domain.csproj",
+  "projectFilePath": "/mnt/d/Web_APi_testing/src/SimpleApi.Domain/SimpleApi.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
