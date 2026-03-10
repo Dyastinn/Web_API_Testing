@@ -1,28 +1,34 @@
+using Microsoft.EntityFrameworkCore;
+using SimpleApi.Application.Data;
 using SimpleApi.Domain.Entities;
 
 namespace SimpleApi.Application.Services;
 
 public class ProductService : IProductService
 {
-    private readonly List<Product> _products = new();
-    private int _nextId = 1;
+    private readonly AppDbContext _context;
 
-    public Task<IEnumerable<Product>> GetAll()
+    public ProductService(AppDbContext context)
     {
-        return Task.FromResult(_products.AsEnumerable());
+        _context = context;
     }
 
-    public Task<Product> GetById(int id)
+    public async Task<IEnumerable<Product>> GetAll()
     {
-        var product = _products.FirstOrDefault(p => p.Id == id);
+        return await _context.Products.ToListAsync();
+    }
+
+    public async Task<Product> GetById(int id)
+    {
+        var product = await _context.Products.FindAsync(id);
         if (product == null)
         {
             throw new KeyNotFoundException($"Product with id {id} not found");
         }
-        return Task.FromResult(product);
+        return product;
     }
 
-    public Task<Product> Create(Product product)
+    public async Task<Product> Create(Product product)
     {
         if (string.IsNullOrWhiteSpace(product.Name))
         {
@@ -34,14 +40,14 @@ public class ProductService : IProductService
             throw new ArgumentException("Product price must be greater than 0", nameof(product.Price));
         }
 
-        product.Id = _nextId++;
-        _products.Add(product);
-        return Task.FromResult(product);
+        _context.Products.Add(product);
+        await _context.SaveChangesAsync();
+        return product;
     }
 
-    public Task<Product> Update(int id, Product product)
+    public async Task<Product> Update(int id, Product product)
     {
-        var existingProduct = _products.FirstOrDefault(p => p.Id == id);
+        var existingProduct = await _context.Products.FindAsync(id);
         if (existingProduct == null)
         {
             throw new KeyNotFoundException($"Product with id {id} not found");
@@ -59,18 +65,20 @@ public class ProductService : IProductService
 
         existingProduct.Name = product.Name;
         existingProduct.Price = product.Price;
-        return Task.FromResult(existingProduct);
+        _context.Products.Update(existingProduct);
+        await _context.SaveChangesAsync();
+        return existingProduct;
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
-        var product = _products.FirstOrDefault(p => p.Id == id);
+        var product = await _context.Products.FindAsync(id);
         if (product == null)
         {
             throw new KeyNotFoundException($"Product with id {id} not found");
         }
 
-        _products.Remove(product);
-        return Task.CompletedTask;
+        _context.Products.Remove(product);
+        await _context.SaveChangesAsync();
     }
 }

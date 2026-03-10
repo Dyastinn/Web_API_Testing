@@ -1,5 +1,5 @@
 {
-  "SimpleApi.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/mnt\/d\/Web_APi_testing\/src\/SimpleApi.Api",
-  "SimpleApi.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/mnt\/d\/Web_APi_testing\/src\/SimpleApi.Application",
-  "SimpleApi.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/mnt\/d\/Web_APi_testing\/src\/SimpleApi.Domain"
+  "SimpleApi.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Web_APi_testing\\src\\SimpleApi.Api",
+  "SimpleApi.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Web_APi_testing\\src\\SimpleApi.Application",
+  "SimpleApi.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Web_APi_testing\\src\\SimpleApi.Domain"
 }

@@ -1,21 +1,35 @@
 using Xunit;
 using SimpleApi.Application.Services;
 using SimpleApi.Domain.Entities;
+using SimpleApi.UnitTests.Fixtures;
 
 namespace SimpleApi.UnitTests;
 
-public class ProductServiceTests
+public class ProductServiceTests : IAsyncLifetime
 {
+    private readonly AppDbContextFixture _fixture = new();
+    private ProductService _service = null!;
+
+    public async Task InitializeAsync()
+    {
+        await _fixture.InitializeAsync();
+        _service = new ProductService(_fixture.Context);
+    }
+
+    public async Task DisposeAsync()
+    {
+        await _fixture.DisposeAsync();
+    }
+
     [Fact]
     public async Task GetAll_ReturnsProducts()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "Product 1", Price = 100 };
-        await service.Create(product);
+        await _service.Create(product);
 
         // Act
-        var result = await service.GetAll();
+        var result = await _service.GetAll();
 
         // Assert
         Assert.Single(result);
@@ -25,12 +39,11 @@ public class ProductServiceTests
     public async Task GetById_ExistingId_ReturnsProduct()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "Product 1", Price = 100 };
-        var created = await service.Create(product);
+        var created = await _service.Create(product);
 
         // Act
-        var result = await service.GetById(created.Id);
+        var result = await _service.GetById(created.Id);
 
         // Assert
         Assert.NotNull(result);
@@ -41,22 +54,18 @@ public class ProductServiceTests
     [Fact]
     public async Task GetById_InvalidId_ThrowsException()
     {
-        // Arrange
-        var service = new ProductService();
-
-        // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => service.GetById(999));
+        // Arrange & Act & Assert
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _service.GetById(999));
     }
 
     [Fact]
     public async Task Create_AddsProduct()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "Laptop", Price = 1000 };
 
         // Act
-        var result = await service.Create(product);
+        var result = await _service.Create(product);
 
         // Assert
         Assert.NotEqual(0, result.Id);
@@ -68,35 +77,32 @@ public class ProductServiceTests
     public async Task Create_InvalidName_ThrowsException()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "", Price = 100 };
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => service.Create(product));
+        await Assert.ThrowsAsync<ArgumentException>(() => _service.Create(product));
     }
 
     [Fact]
     public async Task Create_InvalidPrice_ThrowsException()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "Product", Price = -100 };
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => service.Create(product));
+        await Assert.ThrowsAsync<ArgumentException>(() => _service.Create(product));
     }
 
     [Fact]
     public async Task Update_ChangesProduct()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "Product 1", Price = 100 };
-        var created = await service.Create(product);
+        var created = await _service.Create(product);
         var updated = new Product { Name = "Updated Product", Price = 200 };
 
         // Act
-        var result = await service.Update(created.Id, updated);
+        var result = await _service.Update(created.Id, updated);
 
         // Assert
         Assert.Equal(created.Id, result.Id);
@@ -108,36 +114,31 @@ public class ProductServiceTests
     public async Task Update_InvalidId_ThrowsException()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "Product", Price = 100 };
 
         // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => service.Update(999, product));
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _service.Update(999, product));
     }
 
     [Fact]
     public async Task Delete_RemovesProduct()
     {
         // Arrange
-        var service = new ProductService();
         var product = new Product { Name = "Product 1", Price = 100 };
-        var created = await service.Create(product);
+        var created = await _service.Create(product);
 
         // Act
-        await service.Delete(created.Id);
+        await _service.Delete(created.Id);
 
         // Assert
-        var all = await service.GetAll();
+        var all = await _service.GetAll();
         Assert.Empty(all);
     }
 
     [Fact]
     public async Task Delete_InvalidId_ThrowsException()
     {
-        // Arrange
-        var service = new ProductService();
-
-        // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => service.Delete(999));
+        // Arrange & Act & Assert
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _service.Delete(999));
     }
 }

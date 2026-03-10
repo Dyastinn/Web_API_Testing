@@ -2,14 +2,14 @@ using Xunit;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
-using SimpleApi.Domain.Entities;
+using SimpleApi.Application.DTOs;
+using SimpleApi.IntegrationTests.Fixtures;
 
 namespace SimpleApi.IntegrationTests;
 
 public class ProductsControllerTests : IAsyncLifetime
 {
-    private readonly WebApplicationFactory<Program> _factory = new();
+    private readonly TestWebApplicationFactory _factory = new();
     private HttpClient _client = null!;
 
     public async Task InitializeAsync()
@@ -29,7 +29,7 @@ public class ProductsControllerTests : IAsyncLifetime
     {
         // Act
         var response = await _client.GetAsync("/api/products");
-        var products = await response.Content.ReadAsAsync<List<Product>?>();
+        var products = await response.Content.ReadAsAsync<List<ProductDto>?>();
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -47,7 +47,7 @@ public class ProductsControllerTests : IAsyncLifetime
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        var createdProduct = await response.Content.ReadAsAsync<Product>();
+        var createdProduct = await response.Content.ReadAsAsync<ProductDto>();
         Assert.NotNull(createdProduct);
         Assert.NotEqual(0, createdProduct.Id);
         Assert.Equal("Laptop", createdProduct.Name);
@@ -73,7 +73,7 @@ public class ProductsControllerTests : IAsyncLifetime
         // Arrange
         var createProduct = new { name = "Mouse", price = 50 };
         var createResponse = await _client.PostAsJsonAsync("/api/products", createProduct);
-        var createdProduct = await createResponse.Content.ReadAsAsync<Product>();
+        var createdProduct = await createResponse.Content.ReadAsAsync<ProductDto>();
         Assert.NotNull(createdProduct);
 
         // Act
@@ -81,7 +81,7 @@ public class ProductsControllerTests : IAsyncLifetime
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var product = await response.Content.ReadAsAsync<Product>();
+        var product = await response.Content.ReadAsAsync<ProductDto>();
         Assert.NotNull(product);
         Assert.Equal(createdProduct.Id, product.Id);
     }
@@ -102,7 +102,7 @@ public class ProductsControllerTests : IAsyncLifetime
         // Arrange
         var createProduct = new { name = "Keyboard", price = 75 };
         var createResponse = await _client.PostAsJsonAsync("/api/products", createProduct);
-        var createdProduct = await createResponse.Content.ReadAsAsync<Product>();
+        var createdProduct = await createResponse.Content.ReadAsAsync<ProductDto>();
         Assert.NotNull(createdProduct);
         var updateProduct = new { name = "Mechanical Keyboard", price = 150 };
 
@@ -111,7 +111,7 @@ public class ProductsControllerTests : IAsyncLifetime
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var updatedProduct = await response.Content.ReadAsAsync<Product>();
+        var updatedProduct = await response.Content.ReadAsAsync<ProductDto>();
         Assert.NotNull(updatedProduct);
         Assert.Equal("Mechanical Keyboard", updatedProduct.Name);
         Assert.Equal(150, updatedProduct.Price);
@@ -136,7 +136,7 @@ public class ProductsControllerTests : IAsyncLifetime
         // Arrange
         var createProduct = new { name = "Headphones", price = 200 };
         var createResponse = await _client.PostAsJsonAsync("/api/products", createProduct);
-        var createdProduct = await createResponse.Content.ReadAsAsync<Product>();
+        var createdProduct = await createResponse.Content.ReadAsAsync<ProductDto>();
         Assert.NotNull(createdProduct);
 
         // Act
