@@ -3168,33 +3168,43 @@
     ]
   },
   "packageFolders": {
-    "/home/dyst/.nuget/packages/": {}
+    "C:\\Users\\jgmayo\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/mnt/d/Web_APi_testing/src/SimpleApi.Api/SimpleApi.Api.csproj",
+      "projectUniqueName": "D:\\Web_APi_testing\\src\\SimpleApi.Api\\SimpleApi.Api.csproj",
       "projectName": "SimpleApi.Api",
-      "projectPath": "/mnt/d/Web_APi_testing/src/SimpleApi.Api/SimpleApi.Api.csproj",
-      "packagesPath": "/home/dyst/.nuget/packages/",
-      "outputPath": "/mnt/d/Web_APi_testing/src/SimpleApi.Api/obj/",
+      "projectPath": "D:\\Web_APi_testing\\src\\SimpleApi.Api\\SimpleApi.Api.csproj",
+      "packagesPath": "C:\\Users\\jgmayo\\.nuget\\packages\\",
+      "outputPath": "D:\\Web_APi_testing\\src\\SimpleApi.Api\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "/home/dyst/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\jgmayo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "/usr/lib64/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/mnt/d/Web_APi_testing/src/SimpleApi.Application/SimpleApi.Application.csproj": {
-              "projectPath": "/mnt/d/Web_APi_testing/src/SimpleApi.Application/SimpleApi.Application.csproj"
+            "D:\\Web_APi_testing\\src\\SimpleApi.Application\\SimpleApi.Application.csproj": {
+              "projectPath": "D:\\Web_APi_testing\\src\\SimpleApi.Application\\SimpleApi.Application.csproj"
             }
           }
         }
@@ -3239,7 +3249,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
